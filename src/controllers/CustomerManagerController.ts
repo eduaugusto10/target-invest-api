@@ -28,22 +28,16 @@ export class CustomerManagerController {
     }
 
     async getById(req: Request, res: Response) {
-        const { id } = req.params
-        const balance = await customerManagerRepository
-            .createQueryBuilder()
-            .select("sum(balance)", "balance")
-            .addSelect("MONTH(date)", "month")
-            .addSelect("Year(date)", "year")
-            .where("customerId = :id", { id })
-            .andWhere("date > (now() - INTERVAL 12 month)")
-            .groupBy("MONTH(date)")
-            .orderBy("date", "ASC")
-            .getRawMany()
+        const { id, days } = req.params
+        let balance
+        if (Number(days) > 30) balance = await customerManagerRepository.findLastAll(Number(id), Number(days))
+        else balance = await customerManagerRepository.findLast30(Number(id), Number(days))
+
 
         if (!balance) {
             throw new BadRequestError("Nenhuma ordem encontrada")
         }
-
+console.log(balance)
         res.send(balance)
     }
 
@@ -86,7 +80,7 @@ export class CustomerManagerController {
         if (!user) {
             throw new BadRequestError('Usuário não encontrado')
         }
-        
+
         const dates = date.replaceAll(".", "-")
 
         const balanceMonth = await customerManagerRepository.createQueryBuilder()

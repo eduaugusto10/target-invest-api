@@ -1,6 +1,8 @@
 import { Router } from "express";
+import { BalanceController } from "../controllers/BalanceController";
 import { CustomerManagerController } from "../controllers/CustomerManagerController";
 import { CustomerOrderController } from "../controllers/CustomerOrderController";
+import { DarfController } from "../controllers/DarfController";
 import { OrderController } from "../controllers/OrderController";
 import { SessionController } from "../controllers/SessionController";
 import { UserController } from "../controllers/UserController";
@@ -10,6 +12,11 @@ const routes = Router()
 
 routes.post('/user', new UserController().store)
 routes.post('/login', new SessionController().login)
+
+routes.post('/darfupload', new DarfController().store)
+routes.get('/darf/:id', new DarfController().getDarfById)
+routes.post('/patrimony', new BalanceController().store)
+routes.get('/patrimony/:id', new BalanceController().getById)
 
 //METATRADER
 routes.get('/user-by-account/:account', new UserController().getByAccount)
@@ -25,7 +32,7 @@ routes.delete('/user/:id', new UserController().delete)
 routes.put('/user/:id', new UserController().update)
 
 // Balance of Users
-routes.get('/balance/:id', new CustomerManagerController().getById)
+routes.get('/balance/:id/:days', new CustomerManagerController().getById)
 routes.get('/balance', new CustomerManagerController().getAll)
 routes.post('/balance', new CustomerManagerController().store)
 routes.put('/balance/:id', new CustomerManagerController().update)

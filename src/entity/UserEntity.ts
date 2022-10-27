@@ -1,6 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm"
+import { BalanceEntity } from "./BalanceEntity"
 import { CustomerManagerEntity } from "./CustomerManagerEntity"
 import { CustomerOrderEntity } from "./CustomerOrderEntity"
+import { DarfEntity } from "./DarEntity"
 
 @Entity('tbuser')
 export class UserEntity {
@@ -31,6 +33,12 @@ export class UserEntity {
 
     @OneToMany(() => CustomerManagerEntity, (operation) => operation.customer)
     customer: CustomerManagerEntity[]
+
+    @OneToMany(() => DarfEntity, (customerDarf) => customerDarf.customerDarf)
+    customerDarf: DarfEntity[]
+
+    @OneToMany(() => BalanceEntity, (customer) => customer.customer)
+    customerBalance: DarfEntity[]
 
     @Column({ type: 'datetime' })
     validate: Date

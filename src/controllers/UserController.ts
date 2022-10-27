@@ -70,7 +70,7 @@ export class UserController {
             const balanceUser = await customerManagerRepository.createQueryBuilder()
                 .select("*")
                 .where("customerId=:id", { id: users[i].id })
-                .orderBy("id", "ASC")
+                .orderBy("id", "DESC")
                 .limit(1)
                 .getRawMany()
             if (balanceUser.length > 0) {
