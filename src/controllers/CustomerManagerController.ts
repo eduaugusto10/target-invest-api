@@ -37,7 +37,6 @@ export class CustomerManagerController {
         if (!balance) {
             throw new BadRequestError("Nenhuma ordem encontrada")
         }
-console.log(balance)
         res.send(balance)
     }
 

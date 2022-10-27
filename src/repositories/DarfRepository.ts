@@ -9,7 +9,7 @@ export const darfRepository = AppDataSource.getRepository(DarfEntity).extend({
             .addSelect("dueDate")
             .addSelect("value")
             .where("customerDarfId = :id", { id })
-            .orderBy("dueDate", "ASC")
+            .orderBy("dueDate", "DESC")
             .getRawMany()
     }
 })
