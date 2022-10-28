@@ -15,9 +15,9 @@ export class BalanceController {
     async getById(req: Request, res: Response) {
         const { id } = req.params
 
-        const balances = await balanceRepository.findOneBy({ customer: Number(id) })
+        const balances = await balanceRepository.findLastBalance(Number(id))
 
-        if(!balances){
+        if (!balances) {
             throw new BadRequestError("Nenhum balanço encontrado")
         }
         return res.json(balances)
